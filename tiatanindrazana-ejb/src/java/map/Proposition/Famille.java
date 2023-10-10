@@ -27,6 +27,16 @@ public class Famille extends ClassMAPTable{
     private String email;
     @Expose
     private String motdepasse;
+    @Expose
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     
     public Famille(){
