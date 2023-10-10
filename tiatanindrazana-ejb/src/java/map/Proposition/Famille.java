@@ -146,9 +146,9 @@ public class Famille extends ClassMAPTable{
             client.setMotdepasse(mdp);
             client = client.testLogin(c);
             
-            String requeteUpdate = " Update tokenclient set etat = 11 where idJoueur = '"+ client.getId() +"'";
-            stmt = c.createStatement();
-            stmt.executeUpdate(requeteUpdate);
+           // String requeteUpdate = " Update tokenclient set etat = 11 where idJoueur = '"+ client.getId() +"'";
+            //stmt = c.createStatement();
+            ///stmt.executeUpdate(requeteUpdate);
             FamilleToken tokenUser = new FamilleToken();
             tokenUser.setIduser(client.getTuppleID());
             tokenUser.setIdfamille(client.getTuppleID());

@@ -1006,6 +1006,7 @@ public abstract class ClassMAPTable implements Serializable {
                 refUser= g[0];
             }
             MapHistorique histo = new MapHistorique(this.getNomTable(), "Insertion par "+temps, refUser, this.getTuppleID(), c);
+            histo.setIdUtilisateur("1");
             histo.setObjet(this.getClassName());
             return insertToTable(histo, c);
         } catch (Exception e) {
