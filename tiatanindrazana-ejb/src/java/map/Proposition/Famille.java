@@ -97,6 +97,13 @@ public class Famille extends ClassMAPTable{
         this.motdepasse = motdepasse;
     }
     
+    
+    public Famille(String email, String motdepasse) {
+        this.setNomTable("Famille");
+        this.email = email;
+        this.motdepasse = motdepasse;
+    }
+    
      public static Famille inscription(Connection c, Famille client) throws Exception {      
         String mdpTemp = client.getMotdepasse();
         
