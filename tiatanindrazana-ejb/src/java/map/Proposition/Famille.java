@@ -137,9 +137,9 @@ public class Famille extends ClassMAPTable{
             String requeteUpdate = " Update tokenclient set etat = 11 where idJoueur = '"+ client.getId() +"'";
             stmt = c.createStatement();
             stmt.executeUpdate(requeteUpdate);
-            JejooTokenClient tokenUser = new JejooTokenClient();
+            FamilleToken tokenUser = new FamilleToken();
             tokenUser.setIduser(client.getTuppleID());
-            tokenUser.setIdJoueur(client.getTuppleID());
+            tokenUser.setIdfamille(client.getTuppleID());
             tokenUser.setToken(encryptTxt(email + mdp + new java.sql.Timestamp(System.currentTimeMillis())));
             tokenUser.setDateexp(new java.sql.Timestamp(System.currentTimeMillis()));
             if(language==null||language.isEmpty()) language = "mg";

@@ -15,7 +15,7 @@ import java.util.Calendar;
  * @author Valiah Karen
  */
 public class FamilleToken extends ClassEtat{
-    private String id,token,idJoueur,langue;
+    private String id,token,idfamille,langue;
     private Timestamp dateexp;
     private int etat;
 
@@ -56,14 +56,14 @@ public class FamilleToken extends ClassEtat{
         this.token = token;
     }
 
-    public String getIdJoueur() {
-        return idJoueur;
+    public String getIdfamille() {
+        return idfamille;
     }
 
-    public void setIdJoueur(String idJoueur) {
-        this.idJoueur = idJoueur;
+    public void setIdfamille(String idfamille) {
+        this.idfamille = idfamille;
     }
-
+    
     public Timestamp getDateexp() {
         return dateexp;
     }
