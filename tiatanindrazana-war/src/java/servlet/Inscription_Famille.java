@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import map.Proposition.Famille;
 
 /**
  *
@@ -88,16 +89,19 @@ public class Inscription_Famille extends  BaseWs {
         
         HttpSession session = request.getSession(true);
         
-        String nom = request.getParameter("nom");
-        
+        String nomfamille = request.getParameter("nom");
+        String email = request.getParameter("email");
+        String motdepasse = request.getParameter("motdepasse");
         
         Data data = null;
         Error error = new Error();
         
         try (PrintWriter out = response.getWriter()) {
             try{
-                
-                data = new Data(nom);
+                Famille f = new Famille(nomfamille, email, motdepasse);
+                Famille ff = f.inscription(null);
+               // data = new Data(nomfamille);
+                data = new Data(new Famille[]{ff},error);
                 out.print(gsonSend.toJson(data));
             } catch(Exception exc){
                 exc.printStackTrace();
