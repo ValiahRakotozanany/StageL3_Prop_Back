@@ -8,8 +8,10 @@ package map.Proposition;
 import bean.CGenUtil;
 import bean.ClassMAPTable;
 import com.google.gson.annotations.Expose;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Formatter;
 import utilitaire.UtilDB;
 
 /**
@@ -206,6 +208,22 @@ public class Famille extends ClassMAPTable{
         }
     }
    
+    public static String encryptTxt(String txt) throws Exception {
+        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+        crypt.reset();
+        crypt.update(txt.getBytes("UTF-8"));
+        return byteToHex(crypt.digest());
+    }
+ public static String byteToHex(byte[] hash) {
+        String result;
+        try (Formatter formatter = new Formatter()) {
+            for (byte b : hash) {
+                formatter.format("%02x", b);
+            }
+            result = formatter.toString();
+        }
+        return result;
+    }
 
     
 }
