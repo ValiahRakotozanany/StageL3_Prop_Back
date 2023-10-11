@@ -7,6 +7,7 @@ package map.Proposition;
 
 import bean.CGenUtil;
 import bean.ClassMAPTable;
+import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import utilitaire.UtilDB;
 
@@ -15,10 +16,13 @@ import utilitaire.UtilDB;
  * @author Valiah Karen
  */
 public class Maladie extends ClassMAPTable {
-
+    @Expose
     private String id;
+    @Expose
     private String maladie;
+    @Expose
     private int etat;
+    @Expose
     private String etatlib;
 
     public String getEtatlib() {
@@ -113,6 +117,33 @@ public class Maladie extends ClassMAPTable {
             //}
             System.out.println("table = " + crt.getNomTable());
             return (PlatMaladie[]) CGenUtil.rechercher(crt, null, null, c, " and idmaladie = '" + this.getId() + "'");
+        } catch (Exception e) {
+            if (c != null) {
+                c.rollback();
+            }
+            throw e;
+        } finally {
+            if (c != null && estOuvert == true) {
+                c.close();
+            }
+        }
+    }
+    
+    public Maladie[] listeMaladie(String table, Connection c) throws Exception{
+        //Maladie[] mm =(Maladie[])CGenUtil.rechercher(m, null, null, c, "");
+          boolean estOuvert = false;
+        try {
+            if (c == null) {
+                c = new UtilDB().GetConn();
+                estOuvert = true;
+            }
+            System.out.println("idMaladiie ==== " + this.getId());
+            Maladie crt = new Maladie();
+           // if (table != null && table.compareToIgnoreCase("") != 0) {
+                crt.setNomTable(table);
+            //}
+            System.out.println("table = " + crt.getNomTable());
+            return (Maladie[])CGenUtil.rechercher(crt, null, null, c, "");
         } catch (Exception e) {
             if (c != null) {
                 c.rollback();

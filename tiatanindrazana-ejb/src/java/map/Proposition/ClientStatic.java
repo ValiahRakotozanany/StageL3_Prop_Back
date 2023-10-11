@@ -60,7 +60,7 @@ public class ClientStatic {
     }
     
     public static Famille findUserbyToken(String token) throws Exception{
-        token = checkValidToken(token);
+        token = checkValidToken(token);        
         return clientsDatas.getClient(token);
     }
     public static FamilleToken findTokenUserbyToken(String token)throws Exception{
@@ -74,12 +74,14 @@ public class ClientStatic {
             tex.setEtat(-21);
             throw tex;
         }
+        System.out.println("token = "+token);
         String[]method = Utilitaire.split(token, " ");
         if(method.length!=2 || !method[0].equals("Bearer")){
             TokenException tex = new TokenException("Invalid Authorization!");
             tex.setEtat(-20);
             throw tex;
         }
+        System.out.println(" t== "+method[1]);
         return method[1];
     }
 }
