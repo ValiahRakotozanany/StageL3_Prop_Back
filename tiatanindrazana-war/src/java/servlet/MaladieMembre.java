@@ -6,7 +6,6 @@
 package servlet;
 
 import Utils.Data;
-import bean.CGenUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -18,16 +17,14 @@ import map.Proposition.ClientStatic;
 import map.Proposition.Famille;
 import map.Proposition.FamilleToken;
 import map.Proposition.Maladie;
-import map.Proposition.MaladieMembre;
-import map.Proposition.Membre;
 import map.Proposition.Token.TokenException;
 
 /**
  *
  * @author Valiah Karen
  */
-@WebServlet(name = "Maladie", urlPatterns = {"/Maladie"})
-public class Maladie_F extends BaseWs {
+@WebServlet(name = "MaladieMembre", urlPatterns = {"/MaladieMembre"})
+public class MaladieMembre extends BaseWs {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +43,10 @@ public class Maladie_F extends BaseWs {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Maladie</title>");
+            out.println("<title>Servlet MaladieMembre</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Maladie at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MaladieMembre at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,7 +64,7 @@ public class Maladie_F extends BaseWs {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType(contentType);
+                response.setContentType(contentType);
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         //response.addHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, X-Auth-Token");
@@ -86,8 +83,8 @@ public class Maladie_F extends BaseWs {
                 FamilleToken tokenUser = ClientStatic.findTokenUserbyToken(token);
                 String language = tokenUser.getLangue();
 
-                Maladie m = new Maladie();
-                Maladie[] mm = m.listeMaladie("maladie", null);
+                MaladieMembre m = new MaladieMembre();
+                MaladieMembre[] mm = m.listeMaladie("maladiemembre", null);
                 System.out.println("tailleee ==== " + mm.length);
                 data = new Data(mm, error);
                 out.print(gsonSend.toJson(data));
@@ -100,7 +97,7 @@ public class Maladie_F extends BaseWs {
                 error = new Utils.Error(0, "Situation", "Token Exception", ex.getMessage());
             }
         }
-
+        
     }
 
     /**
@@ -114,45 +111,7 @@ public class Maladie_F extends BaseWs {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType(contentType);
-
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        //response.addHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, X-Auth-Token");
-        response.addHeader("Access-Control-Allow-Credentials", "true");
-        response.addHeader("Access-Control-Request-Headers", "Origin, X-Custom-Header, X-Requested-With, Authorization, Content-Type, Accept");
-        //response.addHeader("Access-Control-Expose-Headers", "Content-Length, X-Kuma-Revision");
-        response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
-
-        Data data = null;
-        Utils.Error error = new Utils.Error();
-        String idmaladie = request.getParameter("idmaladie");
-        String idmembre = request.getParameter("idmembre");
-        String token = request.getHeader("Authorization");
         
-        try (PrintWriter out = response.getWriter()) {
-            try {
-                Famille client = ClientStatic.findUserbyToken(token);
-                FamilleToken tokenUser = ClientStatic.findTokenUserbyToken(token);
-                String language = tokenUser.getLangue();
-
-                MaladieMembre m = new MaladieMembre();
-                m.setIdMaladie(idmaladie);
-                m.setIdMembre(idmembre);
-                m = m.ajoutMaladiMembre(null);
-              //  Maladie[] mm = m.listeMaladie("maladie", null);
-            //    System.out.println("tailleee ==== " + mm.length);
-                data = new Data(new MaladieMembre[]{m}, error);
-                out.print(gsonSend.toJson(data));
-            } catch (TokenException tex) {
-                tex.printStackTrace();
-                error = new Utils.Error(tex.getEtat(), "Situation", "Token Exception", tex.getMessage());
-                out.println(gsonSend.toJson(error));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                error = new Utils.Error(0, "Situation", "Token Exception", ex.getMessage());
-            }
-        }
-
     }
 
     /**
