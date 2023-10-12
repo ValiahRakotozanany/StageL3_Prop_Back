@@ -43,7 +43,19 @@ public class MaladieMembre extends ClassMAPTable {
     private String etatingredient;
     @Expose
     private String idfamille;
+    @Expose
+    private String idingredientmaladie;
 
+    public String getIdingredientmaladie() {
+        return idingredientmaladie;
+    }
+
+    public void setIdingredientmaladie(String idingredientmaladie) {
+        this.idingredientmaladie = idingredientmaladie;
+    }
+    
+    
+    
     public String getIngredient() {
         return ingredient;
     }
