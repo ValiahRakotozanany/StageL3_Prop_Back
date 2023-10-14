@@ -23,6 +23,7 @@ public class Ingredient extends ClassMAPTable{
     private Date datesaisondebut;
     private Date datesaisonfin;
     private String unite_lib;
+    
 
     public String getUnite_lib() {
         return unite_lib;

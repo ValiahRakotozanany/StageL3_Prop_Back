@@ -17,10 +17,10 @@
 <%
     String champReturn = request.getParameter("champReturn");
     Ingredient e = new Ingredient();
-    e.setNomTable("ingredient");
-    String listeCrt[] = {"id","nom","prixachat","unite"};
+    e.setNomTable("ingredient_lib");
+    String listeCrt[] = {"id","nom","prixachat","unite_lib", "valeur"};
     String listeInt[] = null;
-    String libEntete[] = {"id", "nom" ,"prixachat","unite"};
+    String libEntete[] = {"id", "nom" ,"prixachat","unite_lib","valeur"};
     PageRechercheChoix pr = new PageRechercheChoix(e, request, listeCrt, listeInt, 3, libEntete, libEntete.length);
     pr.setUtilisateur((user.UserEJB) session.getValue("u"));
     pr.setLien((String) session.getValue("lien"));

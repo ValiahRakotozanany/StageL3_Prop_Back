@@ -25,7 +25,7 @@
     // pc.getChampByName("pa").setVisible(false);    
     //pc.getChampByName("pointindisp").setVisible(false);
 
-    pc.setTitre("Consultation Plats");
+    pc.setTitre("Consultation Plat");
 
     Platfille recette = new Platfille();
 
@@ -52,10 +52,6 @@
                         <div class="box-footer">
                             <a class="btn btn-warning pull-left"  href="<%=(String) session.getValue("lien") + "?but=Proposition/plat-modif.jsp&id=" + request.getParameter("id")%>" style="margin-right: 10px">Modifier</a>
                             <a class="btn btn-danger pull-left"  href="<%=(String) session.getValue("lien") + "?but=Proposition/plattyper-saisie.jsp&id=" + request.getParameter("id")%>" style="margin-right: 10px">Ajout TYPE PLAT</a>
-                            <a class="btn btn-danger pull-right"  href="<%=(String) session.getValue("lien") + "?but=apresTarif.jsp&acte=disponiple&isdispo=false&id=" + request.getParameter("id")%>" style="margin-right: 10px">Non disponible</a>
-                            <a class="btn btn-success pull-right"  href="<%=(String) session.getValue("lien") + "?but=apresTarif.jsp&acte=disponiple&isdispo=true&id=" + request.getParameter("id")%>" style="margin-right: 10px">Disponible</a>
-                            <a class="btn btn-success pull-right"  href="<%=(String) session.getValue("lien") + "?but=produits/recette-saisie.jsp&idproduit=" + request.getParameter("id")%>" style="margin-right: 10px">Ajouter recette</a>
-
                         </div>
                         <br/>
 

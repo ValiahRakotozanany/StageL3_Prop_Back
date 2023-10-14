@@ -116,7 +116,7 @@ public class Maladie extends ClassMAPTable {
                 crt.setNomTable(table);
             //}
             System.out.println("table = " + crt.getNomTable());
-            return (PlatMaladie[]) CGenUtil.rechercher(crt, null, null, c, " and idmaladie = '" + this.getId() + "'");
+            return (PlatMaladie[]) CGenUtil.rechercher(crt, null, null, c, " and id = '" + this.getId() + "'");
         } catch (Exception e) {
             if (c != null) {
                 c.rollback();

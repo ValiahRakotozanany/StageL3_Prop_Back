@@ -58,7 +58,7 @@
         pi.preparerDataFormu();
 
         PlatMaladie plm = new PlatMaladie();
-        PlatMaladie[] pliste = base.getPlatMaladie("platmaladie_lib", null);
+     /*   PlatMaladie[] pliste = null;//base.getPlatMaladie("platmaladie_lib", null);*/
         PageInsert pii = new PageInsert(plm, request, (user.UserEJB) session.getValue("u"));
         pii.setLien((String) session.getValue("lien"));
         pii.getFormu().changerEnChamp(l);
@@ -220,21 +220,7 @@
                                     </thead>
 
                                     <tbody>
-                                        <%
-                                            for (int j = 0; j < pliste.length; j++) {
-                                        %>
-                                        <tr onmouseover="this.style.backgroundColor = '#EAEAEA'" onmouseout="this.style.backgroundColor = ''">
-                                            <td align="center">
-                                                <input type="checkbox" value="<%=pliste[j].getId()%>-<%=j%>" name="id" id="checkbox0">
-                                            </td>
-
-                                            <td  align="center"><%=pliste[j].getId()%></td>
-                                            <td  align="center"><a href="<%=(String) session.getValue("lien")%>?but=Produit/as-ingredients-fiche.jsp&id=<%=pliste[j].getId()%>"><%=pliste[j].getPlat()%></a></td>                                           
-                                            <td><%=pliste[j].getId()%></td>
-                                        </tr>
-                                        <%
-                                            }
-                                        %>
+                                    
 
                                     </tbody>
                                 </table>

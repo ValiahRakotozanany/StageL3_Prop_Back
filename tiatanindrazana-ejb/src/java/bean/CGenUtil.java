@@ -1269,6 +1269,8 @@ public class CGenUtil {
         String nomMethode = "get" + Utilitaire.convertDebutMajuscule(nomChamp);
         Object ret = null;
         try {
+            System.out.println("nom methode = "+nomMethode);
+                    
             ret = e.getClass().getMethod(nomMethode, null).invoke(e, null);
             return ret;
         } catch (NoSuchMethodException ex) {

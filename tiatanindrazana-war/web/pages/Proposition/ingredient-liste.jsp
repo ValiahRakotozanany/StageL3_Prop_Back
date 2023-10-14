@@ -24,7 +24,7 @@
     String listeInt[] = {};
     String libEntete[] = {"id", "nom"};
   PageRecherche pr = new PageRecherche(plat, request, listeCrt, listeInt, 3, libEntete, libEntete.length);
-    pr.setTitre("Liste Maladie");
+    pr.setTitre("Liste Ingrédients");
     pr.setUtilisateur((user.UserEJB) session.getValue("u"));
     pr.setLien((String) session.getValue("lien"));
     pr.setApres("Proposition/maladie-liste.jsp");
@@ -38,7 +38,7 @@
 </script>
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Liste plats</h1>
+        <h1>Liste Ingrédients</h1>
     </section>
     <section class="content">
         <form action="<%=pr.getLien()%>?but=Proposition/maladie-liste.jsp" method="post" name="incident" id="incident">
@@ -54,7 +54,7 @@
             out.println(pr.getTableauRecap().getHtml());%>
         <br>
         <%
-            String libEnteteAffiche[] = {"Id", "maladie"};
+            String libEnteteAffiche[] = {"Id", "Aliment"};
             pr.getTableau().setLibelleAffiche(libEnteteAffiche);
             out.println(pr.getTableau().getHtml());
             out.println(pr.getBasPage());
