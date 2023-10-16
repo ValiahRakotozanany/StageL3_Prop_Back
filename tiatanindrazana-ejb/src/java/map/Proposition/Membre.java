@@ -91,7 +91,7 @@ public class Membre extends ClassMAPTable {
         setId(makePK(c));
     }
 
-    public Membre ajoutMembre(Connection c) throws Exception {
+    public Membre ajoutMembre(Connection c,Membre f) throws Exception {
         boolean estOuvert = false;
         Membre resp = new Membre();
         try {
@@ -101,7 +101,7 @@ public class Membre extends ClassMAPTable {
                 estOuvert = true;
             }
 
-            resp = resp.ajoutM(c, this);
+            resp = resp.ajoutM(c, f);
             if (c != null && estOuvert) {
                 c.commit();
             }
