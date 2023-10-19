@@ -1,6 +1,6 @@
 <project name="deploy-ejb" default="deploy" basedir="./build-file">
     <property environment="env"/>
-    <property name="deploy.dir" value="D:\ITU\BICI\wildfly-10\wildfly-10\standalone\deployments"/>
+    <property name="deploy.dir" value="D:\ITU\BICI\wildfly-10.0.0.Final\standalone\deployments"/>
     <property name="tiatanindrazana-warname" value="tiatanindrazana.war"/>
     <property name="tiatanindrazana-jarname" value="tiatanindrazana-ejb.jar"/>
     <property name="tiatanindrazana-earname" value="tiatanindrazana.ear"/>

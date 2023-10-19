@@ -76,8 +76,7 @@ public class Login_Famille extends BaseWs {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         //processRequest(request, response);
-        response.setContentType(contentType);
-        
+        response.setContentType(contentType);        
         response.addHeader("Access-Control-Allow-Origin", "*");
         //response.addHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, X-Auth-Token");
         response.addHeader("Access-Control-Allow-Credentials", "true");

@@ -1,0 +1,216 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package map.Proposition;
+
+import bean.CGenUtil;
+import bean.ClassMAPTable;
+import com.google.gson.annotations.Expose;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import utilitaire.UtilDB;
+
+/**
+ *
+ * @author Valiah Karen
+ */
+public class Proposer extends ClassMAPTable {
+
+    @Expose
+    private String idplat;
+    @Expose
+    private String idtype;
+    @Expose
+    private String val;
+    @Expose
+    private String nomplats;
+    @Expose
+    private double prixadulte;
+    @Expose
+    private double prixenfant;
+    @Expose
+    private int ordre;
+
+    public int getOrdre() {
+        return ordre;
+    }
+
+    public void setOrdre(int ordre) {
+        this.ordre = ordre;
+    }
+
+    public Proposer() {
+        this.setNomTable("propo_plat_bugdet");
+    }
+
+    public String getIdplat() {
+        return idplat;
+    }
+
+    public void setIdplat(String idplat) {
+        this.idplat = idplat;
+    }
+
+    public String getIdtype() {
+        return idtype;
+    }
+
+    public void setIdtype(String idtype) {
+        this.idtype = idtype;
+    }
+
+    public String getVal() {
+        return val;
+    }
+
+    public void setVal(String val) {
+        this.val = val;
+    }
+
+    public String getNomplats() {
+        return nomplats;
+    }
+
+    public void setNomplats(String nomplats) {
+        this.nomplats = nomplats;
+    }
+
+    public double getPrixadulte() {
+        return prixadulte;
+    }
+
+    public void setPrixadulte(double prixadulte) {
+        this.prixadulte = prixadulte;
+    }
+
+    public double getPrixenfant() {
+        return prixenfant;
+    }
+
+    public void setPrixenfant(double prixenfant) {
+        this.prixenfant = prixenfant;
+    }
+
+    @Override
+    public String getTuppleID() {
+        return this.idplat;
+    }
+
+    @Override
+    public String getAttributIDName() {
+        return "id";
+    }
+
+    public Proposer[] getPropositionJour(String idfamille, String table, Connection c, String[] ingredients, String[] type) throws Exception {
+        boolean estOuvert = false;
+        try {
+            if (c == null) {
+                c = new UtilDB().GetConn();
+                estOuvert = true;
+            }
+            MaladieMembre crt = new MaladieMembre();
+            MaladieMembre[] ing = crt.getIngredientInterdit(idfamille, table, c, ingredients);
+            // if (table != null && table.compareToIgnoreCase("") != 0) {
+            crt.setNomTable(table);
+            String apres = "";
+            if (type != null || type.length > 0) {
+                apres += " and (";
+                for (int i = 0; i < type.length; i++) {
+                    if (i + 1 < type.length) {
+                        apres += " idtype = '" + type[i] + "' or ";
+                    }
+                    if (i + 1 == type.length) {
+                        apres += " idtype = '" + type[i] + "') ";
+                    }
+                }
+                System.out.println("aprestype = " + apres);
+            }
+
+            if (ing != null || ing.length > 0) {
+                apres += " and idplat not in ( SELECT p.IDPLAT  FROM PLATFILLE p WHERE p.ETATINGREDIENT =1 and p.IDINGREDIENT  IN (";
+                for (int i = 0; i < ing.length; i++) {
+                    if (i + 1 < ing.length) {
+                        apres += "'" + ing[i].getIdingredient() + "',";
+                    }
+                    if (i + 1 == ing.length) {
+                        apres += "'" + ing[i].getIdingredient() + "'))";
+                    }
+                }
+                apres += " order by ordre asc";
+                System.out.println("apres = " + apres);
+
+            }
+            return (Proposer[]) CGenUtil.rechercher(new Proposer(), null, null, c, apres);
+
+        } catch (Exception e) {
+            if (c != null) {
+                c.rollback();
+            }
+            throw e;
+        } finally {
+            if (c != null && estOuvert == true) {
+                c.close();
+            }
+        }
+    }
+
+    public static ArrayList<Proposer> genererPropositionjour(Proposer[] listePlat, int lengthType, int index, ArrayList<Proposer> Propfinal, int tl, int iteration, int isuite) {
+        int i = iteration;
+        if (i < listePlat.length) {
+            if (index < listePlat.length) {
+                //   Proposer[] proposer = new Proposer[lengthType];
+                System.out.println("type liste i et index === >" + listePlat[i].getIdtype() + " ______ +" + listePlat[index].getIdtype() + " , i = " + i);
+                if ((listePlat[i].getIdtype().compareTo(listePlat[index].getIdtype())) != 0) {
+                    //Propfinal.add(listePlat[index]);                    
+                    System.out.println("tl = " + tl + " , i = " + i + " , index = " + index);
+                    if (tl < lengthType) {
+                        if (index + 1 == listePlat.length) {
+                            i++;
+                            iteration++;
+                        } else {
+                            // proposer[tl] = listePlat[index];
+                            System.out.println(" liste index == " + listePlat[index].getNomplats());
+                            System.out.println(" liste index == " + listePlat[index].getIdtype());
+                            //  Propfinal.add(proposer);
+                            if (i + 1 < listePlat.length) {
+                                Propfinal.add(listePlat[index]);
+                                Propfinal.add(listePlat[isuite-1]);
+                                for (int j = 0; j < Propfinal.size(); j++) {
+                                    System.out.println(Propfinal.get(j).getNomplats()+ " NomPlats TAFIDITRA");
+                                }
+                                
+                                tl = tl+1;
+                                System.out.println(" Plat miditra " + listePlat[index].getNomplats() + " - ");
+                                System.out.println(" mbola tsy mety fa averina index == " + (index + 1) + (tl + 1));
+                                genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, tl + 1, index, i);
+                                Propfinal.add(listePlat[isuite-1]);
+                                System.out.println(" Plat miditra voalohany nefa farany ===" + listePlat[isuite-1].getNomplats() + " - ");
+                            } else {
+                                return Propfinal;
+                            }
+                        }
+                    } else {
+                        tl = 0;
+                        genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, 0, isuite, isuite+1);
+                    }
+                }
+                if (listePlat[i].getIdtype().compareTo(listePlat[index].getIdtype()) == 0) {
+                    genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, tl, i, i+1);
+                }
+            }
+            index = i + 1;
+            System.out.println("index ,niova satria iova ny i = " + index);
+            tl = 0;
+            genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, tl, i + 1, i + 2);
+        } else {
+            return Propfinal;
+        }
+
+        return Propfinal;
+
+    }
+
+}

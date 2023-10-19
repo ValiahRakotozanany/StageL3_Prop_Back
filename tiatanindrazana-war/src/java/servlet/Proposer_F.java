@@ -8,23 +8,26 @@ package servlet;
 import Utils.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import map.Proposition.ClientStatic;
 import map.Proposition.Famille;
 import map.Proposition.FamilleToken;
 import map.Proposition.MaladieMembre;
+import map.Proposition.Proposer;
 import map.Proposition.Token.TokenException;
 
 /**
  *
  * @author Valiah Karen
  */
-@WebServlet(name = "Ingredient_Interdit", urlPatterns = {"/Ingredient_Interdit"})
-public class Ingredient_Interdit extends BaseWs {
+@WebServlet(name = "Proposer", urlPatterns = {"/Proposer"})
+public class Proposer_F extends BaseWs {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +46,10 @@ public class Ingredient_Interdit extends BaseWs {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Ingredient_Interdit</title>");
+            out.println("<title>Servlet Proposer</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Ingredient_Interdit at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Proposer at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,38 +67,7 @@ public class Ingredient_Interdit extends BaseWs {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-   response.addHeader("Access-Control-Allow-Origin", "*");
-        //response.addHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, X-Auth-Token");
-        response.addHeader("Access-Control-Allow-Credentials", "true");
-        response.addHeader("Access-Control-Request-Headers", "Origin, X-Custom-Header, X-Requested-With, Authorization, Content-Type, Accept");
-        //response.addHeader("Access-Control-Expose-Headers", "Content-Length, X-Kuma-Revision");
-        response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
 
-        Data data = null;
-        Utils.Error error = new Utils.Error();
-        //String idfamille = request.getParameter("idfamille");
-        String token = request.getHeader("Authorization");
-        try (PrintWriter out = response.getWriter()) {
-            try {
-                Famille client = ClientStatic.findUserbyToken(token);
-                FamilleToken tokenUser = ClientStatic.findTokenUserbyToken(token);
-                String language = tokenUser.getLangue();
-                System.out.println(" idfamille = "+client.getId());
-                MaladieMembre m = new MaladieMembre();
-                MaladieMembre[] mm = m.getIngredientInterdit(client.getId(), "ingredient_eviter", null,null);
-                System.out.println("tailleee ==== " + mm.length);
-                data = new Data(mm, error);
-                out.print(gsonSend.toJson(data));
-            } catch (TokenException tex) {
-                tex.printStackTrace();
-                error = new Utils.Error(tex.getEtat(), "Situation", "Token Exception", tex.getMessage());
-                out.println(gsonSend.toJson(error));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                error = new Utils.Error(0, "Situation", "Token Exception", ex.getMessage());
-            }
-        }
-    
     }
 
     /**
@@ -109,7 +81,51 @@ public class Ingredient_Interdit extends BaseWs {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     }
+        response.setContentType(contentType);
+
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        //response.addHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, X-Auth-Token");
+        response.addHeader("Access-Control-Allow-Credentials", "true");
+        response.addHeader("Access-Control-Request-Headers", "Origin, X-Custom-Header, X-Requested-With, Authorization, Content-Type, Accept");
+        //response.addHeader("Access-Control-Expose-Headers", "Content-Length, X-Kuma-Revision");
+        response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+
+        HttpSession session = request.getSession(true);
+        String ingredient = request.getParameter("ingredient");
+        String type = request.getParameter("type");
+        //  String datenaissance = request.getParameter("datenaissance");
+        System.out.println(" ingredients = " + ingredient);
+        // Date d = new Date(datenaissance);
+        Data data = null;
+        Utils.Error error = new Utils.Error();
+        System.out.println("type =" + type);
+        String[] splitType = type.split(",");
+        String[] splitIng = ingredient.split(",");
+        String token = request.getHeader("Authorization");
+        try (PrintWriter out = response.getWriter()) {
+            try {
+                Famille client = ClientStatic.findUserbyToken(token);
+                FamilleToken tokenUser = ClientStatic.findTokenUserbyToken(token);
+                String language = tokenUser.getLangue();
+                System.out.println(" idfamille = " + client.getId());
+                MaladieMembre m = new MaladieMembre();
+                MaladieMembre[] mm = m.getIngredientInterdit(client.getId(), "ingredient_eviter", null, splitIng);
+                System.out.println("tailleee ==== " + mm.length);
+                Proposer p = new Proposer();
+                Proposer[] proposition = p.getPropositionJour(client.getId(), "ingredient_eviter", null, splitIng, splitType);
+                ArrayList<Proposer> propos = p.genererPropositionjour(proposition, splitType.length   , 1, new ArrayList<Proposer>(),0,0,1);
+                data = new Data(proposition, error);
+                out.print(gsonSend.toJson(data));
+            } catch (TokenException tex) {
+                tex.printStackTrace();
+                error = new Utils.Error(tex.getEtat(), "Situation", "Token Exception", tex.getMessage());
+                out.println(gsonSend.toJson(error));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                error = new Utils.Error(0, "Situation", "Token Exception", ex.getMessage());
+            }
+        }
+    }
 
     /**
      * Returns a short description of the servlet.

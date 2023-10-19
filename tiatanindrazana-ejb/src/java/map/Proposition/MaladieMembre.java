@@ -34,9 +34,9 @@ public class MaladieMembre extends ClassMAPTable {
     private String nom;
     @Expose
     private String prenom;
-    
+
     @Expose
-    private String ingredient ;
+    private String ingredient;
     @Expose
     private String idingredient;
     @Expose
@@ -53,9 +53,7 @@ public class MaladieMembre extends ClassMAPTable {
     public void setIdingredientmaladie(String idingredientmaladie) {
         this.idingredientmaladie = idingredientmaladie;
     }
-    
-    
-    
+
     public String getIngredient() {
         return ingredient;
     }
@@ -87,7 +85,6 @@ public class MaladieMembre extends ClassMAPTable {
     public void setIdfamille(String idfamille) {
         this.idfamille = idfamille;
     }
-    
 
     public String getMembre() {
         return membre;
@@ -203,21 +200,40 @@ public class MaladieMembre extends ClassMAPTable {
         return (MaladieMembre) m.createObject(null, c);
     }
 
-    public MaladieMembre[] getIngredientInterdit(String idfamille , String table, Connection c) throws Exception {
+    public MaladieMembre[] getIngredientInterdit(String idfamille, String table, Connection c, String[] str) throws Exception {
         boolean estOuvert = false;
         try {
             if (c == null) {
                 c = new UtilDB().GetConn();
                 estOuvert = true;
             }
-            System.out.println("idMaladiie ==== " + this.getId());
             MaladieMembre crt = new MaladieMembre();
             // if (table != null && table.compareToIgnoreCase("") != 0) {
             crt.setNomTable(table);
-            //}
-            System.out.println("table = " + crt.getNomTable());
-            
-            return (MaladieMembre[]) CGenUtil.rechercher(crt, null, null, c, " and idfamille = '" +idfamille + "'");
+
+            if (str == null || str.length==0) {
+                System.out.println("idMaladiie ==== " + this.getId());
+                //}
+                System.out.println("table = " + crt.getNomTable());
+
+                return (MaladieMembre[]) CGenUtil.rechercher(crt, null, null, c, " and idfamille = '" + idfamille + "'");
+            } else {
+                int length = str.length;
+                String apres = " and idfamille = '" + idfamille +"'";
+                if(length>0){
+                    apres+= " and idingredient not in (";
+                }
+                for (int i = 0; i < length; i++) {
+                    if (i + 1 < length) {
+                        apres += "'" + str[i] + "',";
+                    }
+                    if (i + 1 == length) {
+                        apres += "'" + str[i] + "')";
+                    }
+                }
+                System.out.println("apres = " + apres);
+                return (MaladieMembre[]) CGenUtil.rechercher(crt, null, null, c, " and idfamille = '" + idfamille + "'");
+            }
         } catch (Exception e) {
             if (c != null) {
                 c.rollback();
@@ -264,7 +280,7 @@ public class MaladieMembre extends ClassMAPTable {
                 c = new UtilDB().GetConn();
                 check = true;
                 c.setAutoCommit(false);
-                String requeteUpdate = " Update maladiemembre set etat = 0 where id = '"+idmaladiemembre +"'";
+                String requeteUpdate = " Update maladiemembre set etat = 0 where id = '" + idmaladiemembre + "'";
                 stmt = c.createStatement();
                 stmt.executeUpdate(requeteUpdate);
             }
