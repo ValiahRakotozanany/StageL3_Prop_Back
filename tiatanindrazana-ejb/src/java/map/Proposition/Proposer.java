@@ -157,6 +157,46 @@ public class Proposer extends ClassMAPTable {
         }
     }
 
+    public ArrayList<ArrayList<Proposer>> dispatchProp(Proposer[] listeplat, String[] type) {
+        int size = 0;
+        ArrayList<ArrayList<Proposer>> dispatch = new ArrayList<ArrayList<Proposer>>();
+        for (int j = 0; j < type.length; j++) {
+            ArrayList<Proposer> p = new ArrayList<>();
+            for (int i = 0; i < listeplat.length; i++) {
+                if (listeplat[i].getIdtype().compareTo(type[j]) == 0) {
+                    p.add(listeplat[i]);
+                    System.out.print(" type = " + i + ", ==>" + listeplat[i].getNomplats() + " - " + listeplat[i].getIdtype());
+                }
+            }
+            dispatch.add(p);
+        }
+        return dispatch;
+    }
+
+    public static ArrayList<ArrayList<Proposer>> generateCombinations(ArrayList<ArrayList<Proposer>> typesOfPlats) {
+        ArrayList<ArrayList<Proposer>> combinations = new ArrayList<>();
+        generateCombinationsHelper(typesOfPlats, 0, new ArrayList<>(), combinations);
+        return combinations;
+    }
+
+    private static void generateCombinationsHelper(ArrayList<ArrayList<Proposer>> typesOfPlats, int index, List<Proposer> currentCombination, ArrayList<ArrayList<Proposer>> combinations) {
+        System.out.println(" index = " + index);
+        if (index == typesOfPlats.size()) {
+            combinations.add(new ArrayList<>(currentCombination));
+            return;
+        }
+
+        List<Proposer> currentTypePlats = typesOfPlats.get(index);
+        for (Proposer plat : currentTypePlats) {
+            currentCombination.add(plat);
+            generateCombinationsHelper(typesOfPlats, index + 1, currentCombination, combinations);
+            currentCombination.remove(currentCombination.size() - 1);
+        }
+    }
+
+    /*
+    
+
     public static ArrayList<Proposer> genererPropositionjour(Proposer[] listePlat, int lengthType, int index, ArrayList<Proposer> Propfinal, int tl, int iteration, int isuite) {
         int i = iteration;
         if (i < listePlat.length) {
@@ -177,28 +217,28 @@ public class Proposer extends ClassMAPTable {
                             //  Propfinal.add(proposer);
                             if (i + 1 < listePlat.length) {
                                 Propfinal.add(listePlat[index]);
-                                Propfinal.add(listePlat[isuite-1]);
+                                Propfinal.add(listePlat[isuite - 1]);
                                 for (int j = 0; j < Propfinal.size(); j++) {
-                                    System.out.println(Propfinal.get(j).getNomplats()+ " NomPlats TAFIDITRA");
+                                    System.out.println(Propfinal.get(j).getNomplats() + " NomPlats TAFIDITRA");
                                 }
-                                
-                                tl = tl+1;
+
+                                tl = tl + 1;
                                 System.out.println(" Plat miditra " + listePlat[index].getNomplats() + " - ");
                                 System.out.println(" mbola tsy mety fa averina index == " + (index + 1) + (tl + 1));
                                 genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, tl + 1, index, i);
-                                Propfinal.add(listePlat[isuite-1]);
-                                System.out.println(" Plat miditra voalohany nefa farany ===" + listePlat[isuite-1].getNomplats() + " - ");
+                                Propfinal.add(listePlat[isuite - 1]);
+                                System.out.println(" Plat miditra voalohany nefa farany ===" + listePlat[isuite - 1].getNomplats() + " - ");
                             } else {
                                 return Propfinal;
                             }
                         }
                     } else {
                         tl = 0;
-                        genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, 0, isuite, isuite+1);
+                        genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, 0, isuite, isuite + 1);
                     }
                 }
                 if (listePlat[i].getIdtype().compareTo(listePlat[index].getIdtype()) == 0) {
-                    genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, tl, i, i+1);
+                    genererPropositionjour(listePlat, lengthType, index + 1, Propfinal, tl, i, i + 1);
                 }
             }
             index = i + 1;
@@ -212,5 +252,5 @@ public class Proposer extends ClassMAPTable {
         return Propfinal;
 
     }
-
+     */
 }

@@ -113,7 +113,16 @@ public class Proposer_F extends BaseWs {
                 System.out.println("tailleee ==== " + mm.length);
                 Proposer p = new Proposer();
                 Proposer[] proposition = p.getPropositionJour(client.getId(), "ingredient_eviter", null, splitIng, splitType);
-                ArrayList<Proposer> propos = p.genererPropositionjour(proposition, splitType.length   , 1, new ArrayList<Proposer>(),0,0,1);
+                ArrayList<ArrayList<Proposer>> disp = p.dispatchProp(proposition, splitType);
+                ArrayList<ArrayList<Proposer>> combinations = Proposer.generateCombinations(disp);
+                for (ArrayList<Proposer> combination : combinations) {
+                    System.out.println(combination + " --- FIRST :");
+                    for (int i = 0; i < combination.size(); i++) {
+                        System.out.println(" ==>" + combination.get(i).getNomplats() + " _____  " + combination.get(i).getIdtype());
+                    }
+                    System.out.println(" ____________________________________________________  ");
+                }
+//  ArrayList<Proposer> propos = p.genererPropositionjour(proposition, splitType.length   , 1, new ArrayList<Proposer>(),0,0,1);
                 data = new Data(proposition, error);
                 out.print(gsonSend.toJson(data));
             } catch (TokenException tex) {
