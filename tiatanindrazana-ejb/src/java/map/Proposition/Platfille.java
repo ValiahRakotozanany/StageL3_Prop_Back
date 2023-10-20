@@ -6,6 +6,7 @@
 package map.Proposition;
 
 import bean.ClassMAPTable;
+import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 
 /**
@@ -13,13 +14,19 @@ import java.sql.Connection;
  * @author Valiah Karen
  */
 public class Platfille extends ClassMAPTable{
-
+    @Expose
     private String id ;
+    @Expose
     private String idplat;
+    @Expose
     private String idingredient;
+    @Expose
     private double valeuradulte ;
+    @Expose
     private double valeurenfant;
+    @Expose
     private String remarque ;
+    @Expose
     private String etatingredient;
 
     public String getEtatingredient() {

@@ -9,6 +9,7 @@ import bean.CGenUtil;
 import bean.ClassMAPTable;
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import utilitaire.UtilDB;
@@ -33,12 +34,47 @@ public class Proposer extends ClassMAPTable {
     private double prixenfant;
     @Expose
     private int ordre;
-
     @Expose
     private int nbr;
     @Expose
     private double totalprix;
 
+    @Expose
+    private Platfille_lib[] ingredients;
+
+    public Platfille_lib[] getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Connection c) throws Exception {
+        
+        boolean estOuvert = false;
+        try {
+
+            c = new UtilDB().GetConn();
+            estOuvert = true;
+
+            //System.out.println("idMaladiie ==== " + this.getId());            
+            // if (table != null && table.compareToIgnoreCase("") != 0) {            
+            //}
+            System.out.println("table = " + this.getNomTable());
+            this.ingredients = (Platfille_lib[]) CGenUtil.rechercher(new Platfille_lib(), null, null, c, " and idplat = '" + this.getIdplat()+"'");
+        } catch (Exception e) {
+            if (c != null) {
+                c.rollback();
+            }
+            throw e;
+        } finally {
+            if (c != null && estOuvert == true) {
+                c.close();
+            }
+        }
+    }
+
+   /* public void setIngredients(Platfille_lib[] ingredients) {
+        this.ingredients = ingredients;
+    }
+*/
     public int getNbr() {
         return nbr;
     }
@@ -215,7 +251,7 @@ public class Proposer extends ClassMAPTable {
         }
     }
 
-    public ArrayList<ArrayList<Proposer>> propAvecBudgetEtNbrPers(ArrayList<ArrayList<Proposer>> listeTotal, double budget1, double budget2, int nombrePers) {
+    public ArrayList<ArrayList<Proposer>> propAvecBudgetEtNbrPers(ArrayList<ArrayList<Proposer>> listeTotal, double budget1, double budget2, int nombrePers) throws Exception {
 
         ArrayList<ArrayList<Proposer>> newProp = new ArrayList<ArrayList<Proposer>>();
         for (int i = 0; i < listeTotal.size(); i++) {
@@ -224,19 +260,24 @@ public class Proposer extends ClassMAPTable {
             for (int j = 0; j < listeTotal.get(i).size(); j++) {
                 somme += (listeTotal.get(i).get(j).getPrixenfant() * nombrePers / nbr);
                 listeTotal.get(i).get(j).setTotalprix((listeTotal.get(i).get(j).getPrixenfant() * nombrePers / nbr));
+                listeTotal.get(i).get(j).setIngredients(null);
                 listeTotal.get(i).get(j).setNbr((nombrePers / nbr));
                 nbr = nbr + 1;
+                System.out.println(" somme + nom plat + noombre = "+somme+" , "+listeTotal.get(i).get(j).getNomplats()+" , "+listeTotal.get(i).get(j).getNbr());
             }
-            
-            if (somme <= budget2 && somme >= budget1) {
+
+            if (somme <= budget2 && somme >= budget1){
+                System.out.println(" somme = "+somme);
                 newProp.add(listeTotal.get(i));
-            }            
+                somme=0;
+            }
         }
         if (budget2 <= 0) {
             return listeTotal;
         }
         return newProp;
     }
+
     //private
 
     /*

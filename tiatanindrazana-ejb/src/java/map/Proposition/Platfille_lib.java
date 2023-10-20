@@ -5,6 +5,7 @@
  */
 package map.Proposition;
 
+import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 
 /**
@@ -12,8 +13,11 @@ import java.sql.Connection;
  * @author Valiah Karen
  */
 public class Platfille_lib extends Platfille{
-      private String ingredient;
+    @Expose
+    private String ingredient;
+    @Expose
     private String unite;
+    @Expose
     private String ETATINGREDIENT_LIB;
 
     public String getETATINGREDIENT_LIB() {

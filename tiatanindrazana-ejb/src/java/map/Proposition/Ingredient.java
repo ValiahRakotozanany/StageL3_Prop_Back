@@ -6,6 +6,7 @@
 package map.Proposition;
 
 import bean.ClassMAPTable;
+import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.Date;
 import utilitaire.Utilitaire;
@@ -15,12 +16,20 @@ import utilitaire.Utilitaire;
  * @author Valiah Karen
  */
 public class Ingredient extends ClassMAPTable{
+    @Expose
     private String id;
+    
+    @Expose
     private String nom;
+    @Expose
     private double prixachat ;
+    @Expose
     private int unite ;
+    @Expose
     private double valeur ;
+    @Expose
     private Date datesaisondebut;
+    @Expose
     private Date datesaisonfin;
     private String unite_lib;
     
@@ -70,7 +79,6 @@ public class Ingredient extends ClassMAPTable{
     public void setUnite(int unite) {
         this.unite = unite;
     }
-
     public void setUnite(String unite) throws Exception {
         if(this.getMode().compareTo("modif")==0){
             if(Utilitaire.champNull(unite).isEmpty()){
