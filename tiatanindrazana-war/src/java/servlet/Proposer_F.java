@@ -6,6 +6,7 @@
 package servlet;
 
 import Utils.Data;
+import bean.ClassMAPTable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import map.Proposition.FamilleToken;
 import map.Proposition.MaladieMembre;
 import map.Proposition.Proposer;
 import map.Proposition.Token.TokenException;
+import org.hornetq.utils.json.JSONArray;
+import org.hornetq.utils.json.JSONObject;
 
 /**
  *
@@ -93,6 +96,9 @@ public class Proposer_F extends BaseWs {
         HttpSession session = request.getSession(true);
         String ingredient = request.getParameter("ingredient");
         String type = request.getParameter("type");
+        String budgetMin = request.getParameter("budgetMin");
+        String budgetMax = request.getParameter("budgetMax");
+        String nbrPers = request.getParameter("nbrPers");
         //  String datenaissance = request.getParameter("datenaissance");
         System.out.println(" ingredients = " + ingredient);
         // Date d = new Date(datenaissance);
@@ -120,10 +126,14 @@ public class Proposer_F extends BaseWs {
                     for (int i = 0; i < combination.size(); i++) {
                         System.out.println(" ==>" + combination.get(i).getNomplats() + " _____  " + combination.get(i).getIdtype());
                     }
-                    System.out.println(" ____________________________________________________  ");
-                }
+                    System.out.println(" ____________________________________________________");
+                }                                              
 //  ArrayList<Proposer> propos = p.genererPropositionjour(proposition, splitType.length   , 1, new ArrayList<Proposer>(),0,0,1);
-                data = new Data(proposition, error);
+                double buMin = Double.parseDouble(budgetMin);
+                double buMax = Double.parseDouble(budgetMax);
+                int nbr = Integer.parseInt(nbrPers);
+                ArrayList<ArrayList<Proposer>> propTotal = p.propAvecBudgetEtNbrPers(combinations, buMin, buMax, nbr);
+                data = new Data(new ArrayList<ArrayList<ClassMAPTable>>((ArrayList) combinations), error);
                 out.print(gsonSend.toJson(data));
             } catch (TokenException tex) {
                 tex.printStackTrace();
@@ -147,3 +157,19 @@ public class Proposer_F extends BaseWs {
     }// </editor-fold>
 
 }
+/*String json = jsonArray.toString();
+                JSONArray jsonArray = new JSONArray();
+                for (ArrayList<Proposer> combination : combinations) {
+                    JSONArray innerArray = new JSONArray();
+                    for (Proposer proposer : combination) {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("nomplats", proposer.getNomplats());
+                        jsonObject.put("idtype", proposer.getIdtype());
+                        jsonObject.put("idplat",proposer.getIdplat());
+                        jsonObject.put("prix",proposer.getPrixenfant());
+                        jsonObject.put("val",proposer.getVal());
+                        jsonObject.put("ordre",proposer.getOrdre());
+                        innerArray.put(jsonObject);
+                    }
+                    jsonArray.put(innerArray);
+                }*/

@@ -1,6 +1,8 @@
 package Utils;
 import bean.ClassMAPTable;
 import com.google.gson.annotations.Expose;
+import java.util.ArrayList;
+import map.Proposition.Proposer;
 public class Data {
     @Expose
     private ClassMAPTable[] data;
@@ -11,6 +13,17 @@ public class Data {
 
     @Expose
     private String message;
+    
+    @Expose 
+    private ArrayList<ArrayList<ClassMAPTable>> listedata;
+
+    
+    
+    public Data(ArrayList<ArrayList<ClassMAPTable>> data, Error error) {
+         this.setListedata(data);
+        this.setToken("");
+        this.setError(error);
+    }
 
     public String getMessage() {
         return message;
@@ -19,6 +32,14 @@ public class Data {
     
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public ArrayList<ArrayList<ClassMAPTable>> getListedata() {
+        return listedata;
+    }
+
+    public void setListedata(ArrayList<ArrayList<ClassMAPTable>> listedata) {
+        this.listedata = listedata;
     }
     
     

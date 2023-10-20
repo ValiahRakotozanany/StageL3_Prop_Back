@@ -34,6 +34,27 @@ public class Proposer extends ClassMAPTable {
     @Expose
     private int ordre;
 
+    @Expose
+    private int nbr;
+    @Expose
+    private double totalprix;
+
+    public int getNbr() {
+        return nbr;
+    }
+
+    public void setNbr(int nbr) {
+        this.nbr = nbr;
+    }
+
+    public double getTotalprix() {
+        return totalprix;
+    }
+
+    public void setTotalprix(double totalprix) {
+        this.totalprix = totalprix;
+    }
+
     public int getOrdre() {
         return ordre;
     }
@@ -193,6 +214,30 @@ public class Proposer extends ClassMAPTable {
             currentCombination.remove(currentCombination.size() - 1);
         }
     }
+
+    public ArrayList<ArrayList<Proposer>> propAvecBudgetEtNbrPers(ArrayList<ArrayList<Proposer>> listeTotal, double budget1, double budget2, int nombrePers) {
+
+        ArrayList<ArrayList<Proposer>> newProp = new ArrayList<ArrayList<Proposer>>();
+        for (int i = 0; i < listeTotal.size(); i++) {
+            double somme = 0;
+            int nbr = 1;
+            for (int j = 0; j < listeTotal.get(i).size(); j++) {
+                somme += (listeTotal.get(i).get(j).getPrixenfant() * nombrePers / nbr);
+                listeTotal.get(i).get(j).setTotalprix((listeTotal.get(i).get(j).getPrixenfant() * nombrePers / nbr));
+                listeTotal.get(i).get(j).setNbr((nombrePers / nbr));
+                nbr = nbr + 1;
+            }
+            
+            if (somme <= budget2 && somme >= budget1) {
+                newProp.add(listeTotal.get(i));
+            }            
+        }
+        if (budget2 <= 0) {
+            return listeTotal;
+        }
+        return newProp;
+    }
+    //private
 
     /*
     
