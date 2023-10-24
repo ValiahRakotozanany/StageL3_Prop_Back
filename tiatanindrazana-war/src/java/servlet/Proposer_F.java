@@ -127,13 +127,23 @@ public class Proposer_F extends BaseWs {
                         System.out.println(" ==>" + combination.get(i).getNomplats() + " _____  " + combination.get(i).getIdtype());
                     }
                     System.out.println(" ____________________________________________________");
-                }                                              
+                }                                                  
 //  ArrayList<Proposer> propos = p.genererPropositionjour(proposition, splitType.length   , 1, new ArrayList<Proposer>(),0,0,1);
                 double buMin = Double.parseDouble(budgetMin);
                 double buMax = Double.parseDouble(budgetMax);
                 int nbr = Integer.parseInt(nbrPers);
                 ArrayList<ArrayList<Proposer>> propTotal = p.propAvecBudgetEtNbrPers(combinations, buMin, buMax, nbr);
-                data = new Data(new ArrayList<ArrayList<ClassMAPTable>>((ArrayList) combinations), error);
+                for (ArrayList<Proposer> combination : propTotal) {
+                    System.out.println(combination + " --- PRIIIIIICEEEEE --- :");
+                    for (int i = 0; i < combination.size(); i++) {
+                        System.out.println(" ==>" + combination.get(i).getNomplats() + " _____ TotalPrix =  " + combination.get(i).getTotalprix()+"  _  nbr == >"+nbr+" __ <= Price :"+combination.get(i).getPrixenfant());
+                    }
+                    System.out.println(" |||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+                }  
+                
+                
+                
+                data = new Data(new ArrayList<ArrayList<ClassMAPTable>>((ArrayList) propTotal), error);
                 out.print(gsonSend.toJson(data));
             } catch (TokenException tex) {
                 tex.printStackTrace();

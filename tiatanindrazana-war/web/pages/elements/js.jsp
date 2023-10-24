@@ -46,12 +46,18 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!--<script src="${pageContext.request.contextPath}/dist/js/pages/dashboard2.js" type="text/javascript"></script>-->
 <!-- AdminLTE for demo purposes -->
-<!--<script src="${pageContext.request.contextPath}/dist/js/demo.js" type="text/javascript"></script>-->
 <!-- Parsley -->
 <script src="${pageContext.request.contextPath}/plugins/parsley/src/i18n/fr.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/parsley/dist/parsley.min.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/sparkline/jquery.sparkline.min.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+<!-- vaovao vao nampidirina -->
+    <script src="${pageContext.request.contextPath}/chart.js/Chart.js"></script>
+    <script src="${pageContext.request.contextPath}/fastclick/lib/fastclick.js"></script>
+    <script src="${pageContext.request.contextPath}/dist/js/adminlte.min.js"></script>
+    <script src="${pageContext.request.contextPath}/dist/js/demo.js" type="text/javascript"></script>
+<!-- vaovao vao nampidirina -->
 
 <script type="text/javascript">
     window.ParsleyValidator.setLocale('fr');

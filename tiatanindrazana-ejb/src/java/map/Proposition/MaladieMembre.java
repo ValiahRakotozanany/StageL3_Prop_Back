@@ -232,7 +232,7 @@ public class MaladieMembre extends ClassMAPTable {
                     }
                 }
                 System.out.println("apres = " + apres);
-                return (MaladieMembre[]) CGenUtil.rechercher(crt, null, null, c, " and idfamille = '" + idfamille + "'");
+                return (MaladieMembre[]) CGenUtil.rechercher(crt, null, null, c, " "+apres);
             }
         } catch (Exception e) {
             if (c != null) {

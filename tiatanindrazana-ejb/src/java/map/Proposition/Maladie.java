@@ -16,6 +16,7 @@ import utilitaire.UtilDB;
  * @author Valiah Karen
  */
 public class Maladie extends ClassMAPTable {
+
     @Expose
     private String id;
     @Expose
@@ -24,6 +25,24 @@ public class Maladie extends ClassMAPTable {
     private int etat;
     @Expose
     private String etatlib;
+    private int nbrMaladie;
+    private int limitNombre;
+
+    public int getNbrMaladie() {
+        return nbrMaladie;
+    }
+
+    public void setNbrMaladie(int nbrMaladie) {
+        this.nbrMaladie = nbrMaladie;
+    }
+
+    public int getLimitNombre() {
+        return limitNombre;
+    }
+
+    public void setLimitNombre(int limitNombre) {
+        this.limitNombre = limitNombre;
+    }
 
     public String getEtatlib() {
         return etatlib;
@@ -112,8 +131,8 @@ public class Maladie extends ClassMAPTable {
             }
             System.out.println("idMaladiie ==== " + this.getId());
             PlatMaladie crt = new PlatMaladie();
-           // if (table != null && table.compareToIgnoreCase("") != 0) {
-                crt.setNomTable(table);
+            // if (table != null && table.compareToIgnoreCase("") != 0) {
+            crt.setNomTable(table);
             //}
             System.out.println("table = " + crt.getNomTable());
             return (PlatMaladie[]) CGenUtil.rechercher(crt, null, null, c, " and id = '" + this.getId() + "'");
@@ -128,10 +147,10 @@ public class Maladie extends ClassMAPTable {
             }
         }
     }
-    
-    public Maladie[] listeMaladie(String table, Connection c) throws Exception{
+
+    public Maladie[] listeMaladie(String table, Connection c) throws Exception {
         //Maladie[] mm =(Maladie[])CGenUtil.rechercher(m, null, null, c, "");
-          boolean estOuvert = false;
+        boolean estOuvert = false;
         try {
             if (c == null) {
                 c = new UtilDB().GetConn();
@@ -139,11 +158,11 @@ public class Maladie extends ClassMAPTable {
             }
             System.out.println("idMaladiie ==== " + this.getId());
             Maladie crt = new Maladie();
-           // if (table != null && table.compareToIgnoreCase("") != 0) {
-                crt.setNomTable(table);
+            // if (table != null && table.compareToIgnoreCase("") != 0) {
+            crt.setNomTable(table);
             //}
             System.out.println("table = " + crt.getNomTable());
-            return (Maladie[])CGenUtil.rechercher(crt, null, null, c, "");
+            return (Maladie[]) CGenUtil.rechercher(crt, null, null, c, "");
         } catch (Exception e) {
             if (c != null) {
                 c.rollback();
@@ -155,4 +174,36 @@ public class Maladie extends ClassMAPTable {
             }
         }
     }
+
+    public Maladie[] statMaladie(String table, Connection c,int limit) throws Exception {
+        //Maladie[] mm =(Maladie[])CGenUtil.rechercher(m, null, null, c, "");
+        boolean estOuvert = false;
+        try {
+            if (c == null) {
+                c = new UtilDB().GetConn();
+                estOuvert = true;
+            }
+            System.out.println("idMaladiie ==== " + this.getId());
+            Maladie crt = new Maladie();
+            // if (table != null && table.compareToIgnoreCase("") != 0) {
+            crt.setNomTable(table);
+            crt.setLimitNombre(limit);
+            //}
+            System.out.println("table = " + crt.getNomTable());
+            String requete = "SELECT count(IDMALADIE) AS nbrMaladie,IDMALADIE as id ,MALADIE FROM MALADIEMEMBRE_LIB ml  \n"
+                    + " WHERE ROWNUM <= "+(crt.getLimitNombre()+1)+"  GROUP BY IDMALADIE,MALADIE ORDER BY count(IDMALADIE) DESC";
+            return (Maladie[]) CGenUtil.rechercher(crt, requete, c);
+        } catch (Exception e) {
+            if (c != null) {
+                c.rollback();
+            }
+            throw e;
+        } finally {
+            if (c != null && estOuvert == true) {
+                c.close();
+            }
+        }
+    }
+    
+    
 }
