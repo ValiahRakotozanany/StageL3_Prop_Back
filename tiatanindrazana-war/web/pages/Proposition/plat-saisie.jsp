@@ -82,7 +82,7 @@
                             </a>
                             <ul class="treeview-menu" data-widget="tree">
                                 <li><a href="module.jsp?but=Proposition/maladie-liste.jsp"><i class="fa fa-circle-o"></i> Liste</a></li>
-                                <li><a href="module.jsp?but=/Proposition/maladie-saisie.jsp"><i class="fa fa-circle-o"></i> Ajout</a></li>
+                                <li><a href="module.jsp?but=Proposition/maladie-saisie.jsp"><i class="fa fa-circle-o"></i> Ajout</a></li>
                             </ul>
                         </li>
                         <li class="treeview" data-widget="tree">

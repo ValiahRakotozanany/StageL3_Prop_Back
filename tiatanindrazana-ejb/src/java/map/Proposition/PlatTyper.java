@@ -16,8 +16,8 @@ public class PlatTyper extends ClassMAPTable{
 
     private String id;
     private String idplat;
-    private String idtypeplat;
-   
+    private String idtypeplat;    
+    
     public PlatTyper(){
         this.setNomTable("plattyper");
     }

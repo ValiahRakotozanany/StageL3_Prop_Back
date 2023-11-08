@@ -487,9 +487,15 @@ public class CGenUtil {
                 c = new UtilDB().GetConn();
                 ifconnnull = true;
             }
+            if(c==null){
+                c = new UtilDB().GetConn();
+                ifconnnull = true;
+            }
+            System.out.println("c = "+c);
             String comandeInterne = "select * from " + e.getNomTableSelect();
             comandeInterne = comandeInterne + " where " + makeWhere(e, c) + makeWhereIntervalle(colInt, valInt) + " " + apresWhere;
             System.out.println(" commande = "+comandeInterne);
+            c = new UtilDB().GetConn();
             cmd = c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             dr = cmd.executeQuery(comandeInterne);      
             Object[] ret= transformeDataReader(dr, e, c);
@@ -503,9 +509,11 @@ public class CGenUtil {
             }
             if (cmd != null) {
                 cmd.close();
+                System.out.println(" CLOOSE-----------------");
             }
-            if (ifconnnull && c != null) {
+            if (c != null) {
                 c.close();
+                System.out.println(" CLOOSE");
             }
         }
     }

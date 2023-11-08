@@ -108,6 +108,7 @@ public class Proposer_F extends BaseWs {
         String[] splitType = type.split(",");
         String[] splitIng = ingredient.split(",");
         String token = request.getHeader("Authorization");
+        String option = request.getParameter("option");
         try (PrintWriter out = response.getWriter()) {
             try {
                 Famille client = ClientStatic.findUserbyToken(token);
@@ -117,34 +118,43 @@ public class Proposer_F extends BaseWs {
                 MaladieMembre m = new MaladieMembre();
                 MaladieMembre[] mm = m.getIngredientInterdit(client.getId(), "ingredient_eviter", null, splitIng);
                 System.out.println("tailleee ==== " + mm.length);
-                Proposer p = new Proposer();
-                Proposer[] proposition = p.getPropositionJour(client.getId(), "ingredient_eviter", null, splitIng, splitType);
-                ArrayList<ArrayList<Proposer>> disp = p.dispatchProp(proposition, splitType);
-                ArrayList<ArrayList<Proposer>> combinations = Proposer.generateCombinations(disp);
-                for (ArrayList<Proposer> combination : combinations) {
-                    System.out.println(combination + " --- FIRST :");
-                    for (int i = 0; i < combination.size(); i++) {
-                        System.out.println(" ==>" + combination.get(i).getNomplats() + " _____  " + combination.get(i).getIdtype());
-                    }
-                    System.out.println(" ____________________________________________________");
-                }                                                  
-//  ArrayList<Proposer> propos = p.genererPropositionjour(proposition, splitType.length   , 1, new ArrayList<Proposer>(),0,0,1);
                 double buMin = Double.parseDouble(budgetMin);
                 double buMax = Double.parseDouble(budgetMax);
                 int nbr = Integer.parseInt(nbrPers);
-                ArrayList<ArrayList<Proposer>> propTotal = p.propAvecBudgetEtNbrPers(combinations, buMin, buMax, nbr);
-                for (ArrayList<Proposer> combination : propTotal) {
-                    System.out.println(combination + " --- PRIIIIIICEEEEE --- :");
-                    for (int i = 0; i < combination.size(); i++) {
-                        System.out.println(" ==>" + combination.get(i).getNomplats() + " _____ TotalPrix =  " + combination.get(i).getTotalprix()+"  _  nbr == >"+nbr+" __ <= Price :"+combination.get(i).getPrixenfant());
+
+                Proposer p = new Proposer();
+                Proposer[] proposition = p.getPropositionJour(client.getId(), "ingredient_eviter", null, splitIng, splitType);
+                ArrayList<ArrayList<Proposer>> disp = p.dispatchProp(proposition, splitType);
+
+                if (Integer.parseInt(option) == 1) {
+                    ArrayList<ArrayList<Proposer>> combinations = p.generateCombinations(disp);
+//  ArrayList<Proposer> propos = p.genererPropositionjour(proposition, splitType.length   , 1, new ArrayList<Proposer>(),0,0,1);
+                    ArrayList<ArrayList<Proposer>> propTotal = p.propAvecBudgetEtNbrPers(combinations, buMin, buMax, nbr);
+                    for (ArrayList<Proposer> combination : propTotal) {
+                        System.out.println(combination + " --- PRIIIIIICEEEEE --- :");
+                        for (int i = 0; i < combination.size(); i++) {
+                            System.out.println(" ==>" + combination.get(i).getNomplats() + " _____ TotalPrix =  " + combination.get(i).getTotalprix() + "  _  nbr == >" + nbr + " __ <= Price :" + combination.get(i).getPrixenfant());
+                        }
+                        System.out.println(" |||||||||||||||||||||||||||||||||||||||||||||||||||||||");
                     }
-                    System.out.println(" |||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                }  
-                
-                
-                
-                data = new Data(new ArrayList<ArrayList<ClassMAPTable>>((ArrayList) propTotal), error);
-                out.print(gsonSend.toJson(data));
+                    data = new Data(new ArrayList<ArrayList<ClassMAPTable>>((ArrayList) propTotal), error);
+                    out.print(gsonSend.toJson(data));
+                } if (Integer.parseInt(option) == 2) {
+                    System.out.println(" OPTION 2 - Planning semaine ");
+                    ArrayList<ArrayList<Proposer>> combinations = p.generateCombinationPlanning(disp);
+
+                    for (ArrayList<Proposer> combination : combinations) {
+                        System.out.println(combination + " --- FIRST :");
+                        for (int i = 0; i < combination.size(); i++) {
+                            System.out.println(" ==>" + combination.get(i).getNomplats() + " _____  " + combination.get(i).getIdtype());
+                        }
+                        System.out.println(" ____________________________________________________");
+                    }
+                    ArrayList<ArrayList<Proposer>> propTotal = p.propAvecBudgetEtNbrPers(combinations, buMin, buMax, nbr);
+                    data = new Data(new ArrayList<ArrayList<ClassMAPTable>>((ArrayList) propTotal), error);
+                    out.print(gsonSend.toJson(data));
+
+                }
             } catch (TokenException tex) {
                 tex.printStackTrace();
                 error = new Utils.Error(tex.getEtat(), "Situation", "Token Exception", tex.getMessage());

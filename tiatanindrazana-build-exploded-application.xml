@@ -120,7 +120,7 @@
                 <include name="${ketrika-earname}"/>
             </fileset>	
         </copy>-->
-        <copy todir="${deploy.dir}/tiatanindrazana.war">
+        <copy todir="${deploy.dir}/proposition.war">
             <fileset dir="${build-tiatanindrazana-war_war}" >
                 <include name="**/*"/>
             </fileset>	

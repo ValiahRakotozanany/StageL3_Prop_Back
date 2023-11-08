@@ -66,7 +66,7 @@
 
                     <span class="logo-mini" style="color: <%=Constante.constanteCouleur%>;font-weight: 600;">FTT</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><img style="width: 220px;height: 148px;" src="${pageContext.request.contextPath}/assets/img/LOGO FTT HD.png"/></span>
+                    <span class="logo-lg"><img style="width: 200px;height: 180px;" src="${pageContext.request.contextPath}/assets/img/pourquoiplat.png"/></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav style="background:#ffffff;  height: 10px;" class="navbar navbar-static-top" role="navigation">

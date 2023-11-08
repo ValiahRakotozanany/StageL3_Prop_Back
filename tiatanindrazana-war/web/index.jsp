@@ -49,7 +49,7 @@
     <body class="login-page">
       <div class="login-box loginBody">
         <div class="login-logo">
-          <a href="index.jsp"><br/><img style="width: 220px;height: 148px;" src="${pageContext.request.contextPath}/assets/img/LOGO FTT HD.png"/></a>
+          <a href="index.jsp"><br/><img style="width: 200px;height: 180px;" src="${pageContext.request.contextPath}/assets/img/pourquoiplat.png"/></a>
         </div><!-- /.login-logo -->
         <div class="login-box-body">
             <p class="login-box-msg"><b>Identification</b></p>
@@ -72,6 +72,8 @@
               </div><!-- /.col -->
             </div>
           </form>
+              
+              
         </div><!-- /.login-box-body -->
       </div><!-- /.login-box -->
 

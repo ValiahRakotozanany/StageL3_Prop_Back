@@ -5,6 +5,6 @@
 --%>
 <div class="content-wrapper">
     <H1>Bienvenu</H1> 
-    <h1><img style="width: 650px;height: 418px;" src="${pageContext.request.contextPath}/assets/img/LOGO FTT HD.png"/></h1>
+    <h1><img style="width: 650px;height: 518px;" src="${pageContext.request.contextPath}/assets/img/pourquoiplat.png"/></h1>
    
 </div>

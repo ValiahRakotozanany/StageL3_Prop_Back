@@ -70,7 +70,7 @@
                             </a>
                             <ul class="treeview-menu" data-widget="tree">
                                 <li><a href="module.jsp?but=Proposition/maladie-liste.jsp"><i class="fa fa-circle-o"></i> Liste</a></li>
-                                <li><a href="module.jsp?but=/Proposition/maladie-saisie.jsp"><i class="fa fa-circle-o"></i> Ajout</a></li>
+                                <li><a href="module.jsp?but=Proposition/maladie-saisie.jsp"><i class="fa fa-circle-o"></i> Ajout</a></li>
                             </ul>
                         </li>
                         <li class="treeview" data-widget="tree">
@@ -155,8 +155,7 @@
                                 <thead>
                                     <tr>
                                         <th>Identifiant</th>                                        
-                                        <th colspan="2" >Ingredient</th>
-                                        <th colspan="2" >Etat de l'ingredient</th>
+                                        <th colspan="2" >Ingredient</th>                                        
                                         <th>Quantit&eacute; Adulte</th>
                                         <th>Quantit&eacute; Enfant</th>
                                         <th>Remarque </th>
@@ -184,7 +183,7 @@
                                             <input name="valeurenfant" type="textbox" class="form-control" id="valeurenfant" value="0" onblur="calculer('quantiteE')" tabindex="3">
                                         </td>
                                         <td width="14%" align="center">
-                                            <input name="remarque" type="text" class="form-control" id="remarque" value="0">
+                                            <input name="remarque" type="text" class="form-control" id="remarque" value=" ">
                                         </td>
 
                                     </tr>
@@ -248,7 +247,7 @@
                                                 <td width="14%" align="center"><input type="text" id="quantite<%=i%>" name="quantite" value="<%=liste[i].getValeurenfant()%>"></td>
 
                                                 <td  align="right"><%=liste[i].getUnite()%></td>
-                                                <td  align="right"><%=liste[i].getRemarque()%></td>
+                                                <td  align="right"><input type="text" id="quantite<%=i%>" name="remarque" value="<%=liste[i].getRemarque()%>"/></td>
                                                 <td  align="right"><%=liste[i].getETATINGREDIENT_LIB()%></td>
                                             </tr>
                                             <%

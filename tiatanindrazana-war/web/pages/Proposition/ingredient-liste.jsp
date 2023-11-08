@@ -27,7 +27,7 @@
     pr.setTitre("Liste Ingrédients");
     pr.setUtilisateur((user.UserEJB) session.getValue("u"));
     pr.setLien((String) session.getValue("lien"));
-    pr.setApres("Proposition/maladie-liste.jsp");
+    pr.setApres("Proposition/ingredient-liste.jsp");
     String[] colSomme = null;
     pr.creerObjetPage(libEntete, colSomme);
 %>
@@ -72,7 +72,7 @@
                             </a>
                             <ul class="treeview-menu" data-widget="tree">
                                 <li><a href="module.jsp?but=Proposition/maladie-liste.jsp"><i class="fa fa-circle-o"></i> Liste</a></li>
-                                <li><a href="module.jsp?but=/Proposition/maladie-saisie.jsp"><i class="fa fa-circle-o"></i> Ajout</a></li>
+                                <li><a href="module.jsp?but=Proposition/maladie-saisie.jsp"><i class="fa fa-circle-o"></i> Ajout</a></li>
                             </ul>
                         </li>
                         <li class="treeview" data-widget="tree">
@@ -119,13 +119,13 @@
         <h1>Liste Ingrédients</h1>
     </section>
     <section class="content">
-        <form action="<%=pr.getLien()%>?but=Proposition/maladie-liste.jsp" method="post" name="incident" id="incident">
+        <form action="<%=pr.getLien()%>?but=Proposition/ingredient-liste.jsp" method="post" name="incident" id="incident">
             <%
                 out.println(pr.getFormu().getHtmlEnsemble());
             %>
 
         </form>
-        <%  String lienTableau[] = {pr.getLien() + "?but=Proposition/maladie-fiche.jsp"};
+        <%  String lienTableau[] = {pr.getLien() + "?but=Proposition/ingredient-fiche.jsp"};
             String colonneLien[] = {"id"};
             pr.getTableau().setLien(lienTableau);
             pr.getTableau().setColonneLien(colonneLien);
@@ -140,7 +140,7 @@
         %>
     </section>
     <div class="box-footer">
-                           <a class="btn btn-success pull-right"  href="<%=(String) session.getValue("lien") + "?but=Proposition/Maladie-saisie.jsp"%>" style="margin-right: 10px">Ajouter recette</a>
+                        
                         </div>
 </div>
     <%}catch(Exception e){e.printStackTrace();}%>
